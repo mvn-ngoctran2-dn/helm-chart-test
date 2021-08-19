@@ -1,0 +1,153 @@
+# Default values for wp-webapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: harbor.monstar-lab.vn/demo/wordpress
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets:
+  - name: regcred
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+containerPort: 80
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: 
+    kubernetes.io/ingress.class: nginx-external
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: k8s-wp-demo.monstar-lab.vn
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: 
+  #  - secretName: chart-example-tls
+     - hosts:
+         - k8s-wp-demo.monstar-lab.vn
+
+customLivenessProbe: {}
+livenessProbe:
+  # Set 'enabled: false' if using 'customLivenessProbe' line.
+  enabled: true
+  initialDelaySeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 5
+  successThreshold: 1
+  periodSeconds: 10
+
+customReadinessProbe: {}
+readinessProbe:
+  # Set 'enabled: false' if using 'customReadinessProbe' line.
+  enabled: true
+  initialDelaySeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 5
+  successThreshold: 1
+  periodSeconds: 10
+
+
+resources: 
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+args: []
+
+
+customenv: []
+secretname: 
+  name: app-env-secret
+env:
+  enable: true
+  normal:
+  secret:
+    WORDPRESS_DB_HOST: wordpress-mysql-mvn
+    WORDPRESS_DB_PASSWORD: examplepassword
+
+mountPath: /var/www/html
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  storageClass: sc-mvn-dynamic
+
+###
+mysql-mvn:
+  replicaCount: 1
+  image:
+    repository: mysql
+    tag: "5.6"
+    pullPolicy: IfNotPresent
+  mysqlsecretname:
+    name: mysql-env-secret
+  env:
+    secret:
+      MYSQL_ROOT_PASSWORD: examplepassword
+  service:
+    type: ClusterIP
+    port: 3306
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 300m
+      memory: 128Mi
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    storageClass: sc-mvn-dynamic
