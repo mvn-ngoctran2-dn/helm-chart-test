@@ -2,4 +2,4 @@ helm-extra-args: --timeout 600
 check-version-increment: true
 debug: true
 chart-repos:
-  - mvn-ngoctran2-dn=https://mvn-ngoctran2-dn.github.io/helm-chart-test/
+  - mvn-ngoctran2-dn=https://mvn-ngoctran2-dn.github.io/helm-chart-test
