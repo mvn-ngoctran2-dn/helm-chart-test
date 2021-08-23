@@ -39,12 +39,12 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- $chartName := include "mysql-mvn.fullname" . -}}
+            {{- $chartFullName := include "mysql-mvn.fullname" . -}}
             {{- range $key, $val := .Values.env.secret }}
             - name: {{ $key }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $chartName }}-secrets
+                  name: {{ $chartFullName }}-secrets
                   key: {{ $key }}
             {{- end}}
             {{- range $key, $val := .Values.env.normal }}
