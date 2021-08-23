@@ -39,7 +39,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- $chartName := include "wp-webapp.fullname" . -}}
+            {{- $chartName := include "mysql-mvn.fullname" . -}}
             {{- range $key, $val := .Values.env.secret }}
             - name: {{ $key }}
               valueFrom:
