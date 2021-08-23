@@ -44,7 +44,18 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- include "helpers.list-env-variables" . | indent 12 }}
+            {{- $chartName := include "wp-webapp.fullname" . -}}
+            {{- range $key, $val := .Values.env.secret }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $chartName }}-secrets
+                  key: {{ $key }}
+            {{- end}}
+            {{- range $key, $val := .Values.env.normal }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
           {{- if .Values.args }}
           args:
             {{- range .Values.args }}
