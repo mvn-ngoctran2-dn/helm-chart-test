@@ -1,11 +1,11 @@
-name: Release helm chart
+name: Release APP helm chart
 
 on:
   push:
     branches:
       - master
     paths:
-      - "charts/**"
+      - "charts/app/**"
 
 jobs:
   release:
@@ -29,3 +29,5 @@ jobs:
         uses: helm/chart-releaser-action@v1.2.1
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          charts_dir: charts/app
