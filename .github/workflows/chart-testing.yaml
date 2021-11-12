@@ -18,6 +18,9 @@ jobs:
         with:
           version: v3.6.3
 
+      - name: Run chart-testing (lint)
+        uses: helm/chart-testing-action@v2.1.0
+
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
@@ -25,9 +28,6 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
-
-      - name: Run chart-testing (lint)
-        uses: helm/chart-testing-action@v2.1.0
 
       - name: Run chart-testing (lint)
         run: ct lint --config .github/verify-config.yaml
