@@ -1,6 +1,6 @@
 apiVersion: v2
 name: mysql-mvn
-description: A Helm chart for MYSQL customize with MVN Kubernetes z
+description: A Helm chart for MYSQL customize with MVN Kubernetes y
 
 type: application
 
