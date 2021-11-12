@@ -1,6 +1,6 @@
 apiVersion: v2
 name: example-webapp
-description: A Helm chart Wordpress customize for Kubernetes x
+description: A Helm chart Wordpress customize for Kubernetes y
 
 type: application
 
