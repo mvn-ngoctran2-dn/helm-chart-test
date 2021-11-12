@@ -18,57 +18,23 @@ jobs:
         with:
           version: v3.6.3
 
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed)
+          if [[ -n "$changed" ]]; then
+            echo "::set-output name=changed::true"
+          fi
+
       - name: Run chart-testing (lint)
         uses: helm/chart-testing-action@v2.1.0
-        with:
-          command: lint
-          config: .github/verify-config.yaml
-          charts_dir: charts/app
 
-  kubeval-chart:
-    runs-on: ubuntu-latest
-    needs:
-      - lint-chart
-    strategy:
-      matrix:
-        k8s:
-          - v1.12.3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Run kubeval
-        env:
-          KUBERNETES_VERSION: ${{ matrix.k8s }}
-        run: |
-          chmod +x .github/kubeval.sh
-          sudo bash .github/kubeval.sh
+      - name: Run chart-testing (lint)
+        run: ct lint --config .github/verify-config.yaml
 
-  install-chart:
-    name: install-chart
-    runs-on: ubuntu-latest
-    needs:
-      - lint-chart
-      - kubeval-chart
-    strategy:
-      matrix:
-        k8s:
-          - v1.12.3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Create kind ${{ matrix.k8s }} cluster
-        uses: helm/kind-action@master
-        with:
-          node_image: kindest/node:${{ matrix.k8s }}
-
-      - name: Install Helm
-        uses: azure/setup-helm@v1
-        with:
-          version: v3.6.3
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.2.0
+        if: steps.list-changed.outputs.changed == 'true'
 
       - name: Run chart-testing (install)
-        uses: helm/chart-testing-action@v2.1.0
-        with:
-          command: install
-          config: .github/verify-config.yaml
-          charts_dir: charts/app
+        run: ct install--config .github/verify-config.yaml
