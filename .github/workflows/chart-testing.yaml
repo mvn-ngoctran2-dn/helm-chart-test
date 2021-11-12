@@ -39,7 +39,7 @@ jobs:
       - name: Run kubeval
         env:
           KUBERNETES_VERSION: ${{ matrix.k8s }}
-        run: .github/kubeval.sh
+        run: sudo bash .github/kubeval.sh
 
   install-chart:
     name: install-chart
