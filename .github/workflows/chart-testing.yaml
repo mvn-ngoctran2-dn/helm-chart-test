@@ -23,24 +23,12 @@ jobs:
         with:
           command: lint
           config: .github/verify-config.yaml
-
-  lint-docs:
-    runs-on: ubuntu-latest
-    needs: lint-chart
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Run helm-docs
-        run: |
-          chmod +x .github/helm-docs.sh
-          sudo bash .github/helm-docs.sh
+          charts_dir: charts/app
 
   kubeval-chart:
     runs-on: ubuntu-latest
     needs:
       - lint-chart
-      - lint-docs
     strategy:
       matrix:
         k8s:
@@ -58,7 +46,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - lint-chart
-      - lint-docs
       - kubeval-chart
     strategy:
       matrix:
@@ -82,3 +69,4 @@ jobs:
         with:
           command: install
           config: .github/verify-config.yaml
+          charts_dir: charts/app
