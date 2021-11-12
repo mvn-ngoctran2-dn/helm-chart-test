@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "wp-webapp.fullname" . }}
+  name: {{ include "webapp.fullname" . }}
   labels:
-    {{- include "wp-webapp.labels" . | nindent 4 }}
+    {{- include "webapp.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "wp-webapp.selectorLabels" . | nindent 6 }}
+      {{- include "webapp.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,19 +18,25 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "wp-webapp.selectorLabels" . | nindent 8 }}
+        {{- include "webapp.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "wp-webapp.serviceAccountName" . }}
+      serviceAccountName: {{ include "webapp.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
-        - name: data-webapp
+        {{- $chartName := include "webapp.fullname" . -}}
+        {{- range $key, $val := .Values.mountPath }}
+        - name: {{ $key }}
           persistentVolumeClaim:
-            claimName: {{ include "wp-webapp.fullname" . }}
+            claimName: {{ $chartName }}
+        {{- end }}
+        # - name: data-webapp
+        #   persistentVolumeClaim:
+        #     claimName: {{ include "webapp.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -44,7 +50,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- $chartName := include "wp-webapp.fullname" . -}}
+            {{- $chartName := include "webapp.fullname" . -}}
             {{- range $key, $val := .Values.env.secret }}
             - name: {{ $key }}
               valueFrom:
@@ -55,7 +61,7 @@ spec:
             {{- range $key, $val := .Values.env.normal }}
             - name: {{ $key }}
               value: {{ $val | quote }}
-            {{- end}}
+            {{- end }}
           {{- if .Values.args }}
           args:
             {{- range .Values.args }}
@@ -63,8 +69,10 @@ spec:
             {{- end }}
           {{- end }}
           volumeMounts:
-          - name: data-webapp
-            mountPath: {{ .Values.mountPath }}
+            {{- range $key, $val := .Values.mountPath }}
+            - name: {{ $key }}
+              mountPath: {{ $val }}
+            {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

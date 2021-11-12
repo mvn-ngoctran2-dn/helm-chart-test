@@ -1,8 +1,8 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "wp-webapp.fullname" . }}
-  labels: {{- include "wp-webapp.labels" . | nindent 4 }}
+  name: {{ include "webapp.fullname" . }}
+  labels: {{- include "webapp.labels" . | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}

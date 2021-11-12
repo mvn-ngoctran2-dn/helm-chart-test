@@ -58,12 +58,22 @@ spec:
             {{- end }}
           {{- end }}
           volumeMounts:
-          - name: mysql-pvc
-            mountPath: /var/lib/mysql
+            {{- range $key, $val := .Values.mountPath }}
+            - name: {{ $key }}
+              mountPath: {{ $val }}
+            {{- end }}
+          # - name: mysql-pvc
+          #   mountPath: /var/lib/mysql
       volumes:
-      - name: mysql-pvc
-        persistentVolumeClaim:
-          claimName: {{ include "mysql-mvn.fullname" . }}
+        {{- $chartName := include "mysql-mvn.fullname" . -}}
+        {{- range $key, $val := .Values.mountPath }}
+        - name: {{ $key }}
+          persistentVolumeClaim:
+            claimName: {{ $chartName }}
+        {{- end }}
+      # - name: mysql-pvc
+      #   persistentVolumeClaim:
+      #     claimName: {{ include "mysql-mvn.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
