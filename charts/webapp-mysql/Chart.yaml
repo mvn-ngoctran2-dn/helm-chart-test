@@ -10,5 +10,5 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: mysql-mvn
-    version: "0.3"
+    version: "0.2"
     repository: "https://mvn-ngoctran2-dn.github.io/helm-chart-test/"
