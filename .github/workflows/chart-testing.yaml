@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Run chart-testing (lint)
-        uses: helm/chart-testing-action@master
+        uses: helm/chart-testing-action@2.1.0
         with:
           command: lint
           config: .github/verify-config.yaml
@@ -66,4 +66,4 @@ jobs:
         uses: helm/chart-testing-action@master
         with:
           command: install
-          config: .github/ct.yaml
+          config: .github/verify-config.yaml
