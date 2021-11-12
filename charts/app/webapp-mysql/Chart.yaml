@@ -1,10 +1,10 @@
 apiVersion: v2
-name: example-webapp
+name: webapp
 description: A Helm chart Wordpress customize for Kubernetes y
 
 type: application
 
-version: "0.3.1"
+version: "0.3.2"
 
 appVersion: "1.16.0"
 
