@@ -50,12 +50,12 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- $chartName := include "webapp.fullname" . -}}
+            {{- $secretAppName := default .Release.Name }}
             {{- range $key, $val := .Values.env.secret }}
             - name: {{ $key }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $chartName }}-secrets
+                  name: {{ $secretAppName }}-secrets
                   key: {{ $key }}
             {{- end}}
             {{- range $key, $val := .Values.env.normal }}

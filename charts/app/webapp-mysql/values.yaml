@@ -3,9 +3,9 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
+ENV: dev
 image:
-  repository: harbor.monstar-lab.vn/demo/hello-world
+  repository: harbor.monstar-lab.vn/demo/wordpress
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -13,7 +13,7 @@ image:
 imagePullSecrets:
   - name: demo-harbor
 
-nameOverride: "x"
+nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
@@ -45,7 +45,7 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations:
     kubernetes.io/ingress.class: nginx-external
@@ -63,7 +63,7 @@ ingress:
 customLivenessProbe: {}
 livenessProbe:
   # Set 'enabled: false' if using 'customLivenessProbe' line.
-  enabled: true
+  enabled: false
   initialDelaySeconds: 30
   timeoutSeconds: 5
   failureThreshold: 5
@@ -73,7 +73,7 @@ livenessProbe:
 customReadinessProbe: {}
 readinessProbe:
   # Set 'enabled: false' if using 'customReadinessProbe' line.
-  enabled: true
+  enabled: false
   initialDelaySeconds: 30
   timeoutSeconds: 5
   failureThreshold: 5
@@ -113,7 +113,14 @@ env:
   normal:
   secret:
     WORDPRESS_DB_HOST: wordpress-mysql-mvn
-    WORDPRESS_DB_PASSWORD: examplepassword
+    WORDPRESS_DB_USER: exampleuser
+    WORDPRESS_DB_PASSWORD: examplepw
+    WORDPRESS_DB_NAME: demo-db
+    #DB ENV and secrets
+    MYSQL_DATABASE: demo-db
+    MYSQL_USER: exampleuser
+    MYSQL_PASSWORD: examplepw
+    MYSQL_ROOT_PASSWORD: examplerootpw
 
 mountPath:
   data-webapp: /var/www/html
@@ -134,10 +141,10 @@ mysql-mvn:
     {}
     # fsGroup: 2000
   env:
-    secret:
-      MYSQL_ROOT_PASSWORD: examplepassword
+    normal:
+
   service:
-    type: ClusterIP
+    type: NodePort
     port: 3306
   resources:
     limits:
