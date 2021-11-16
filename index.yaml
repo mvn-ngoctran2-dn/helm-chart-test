@@ -32,6 +32,16 @@ entries:
   mysql-mvn:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-11-16T03:54:38.371877855Z"
+    description: A Helm chart for MYSQL customize with MVN Kubernetes
+    digest: a51b7fcd399e82725351e4e40d4d7ee018225d0ada3aff4739b5e2f7c13ba255
+    name: mysql-mvn
+    type: application
+    urls:
+    - https://github.com/mvn-ngoctran2-dn/helm-chart-test/releases/download/mysql-mvn-0.4.0/mysql-mvn-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-11-12T07:00:43.747721942Z"
     description: A Helm chart for MYSQL customize with MVN Kubernetes y
     digest: e0a0230222fd0f67798b479659def3aa849c44da41f52c8a8d4fd5e61f7142c2
@@ -90,4 +100,4 @@ entries:
     urls:
     - https://github.com/mvn-ngoctran2-dn/helm-chart-test/releases/download/wp-webapp-0.2/wp-webapp-0.2.tgz
     version: "0.2"
-generated: "2021-11-12T07:04:17.442937262Z"
+generated: "2021-11-16T03:54:38.371901156Z"
