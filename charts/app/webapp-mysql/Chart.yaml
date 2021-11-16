@@ -4,11 +4,11 @@ description: A Helm chart Wordpress customize for Kubernetes y
 
 type: application
 
-version: "0.4.1"
+version: "0.4.2"
 
 appVersion: "1.16.0"
 
 dependencies:
   - name: mysql-mvn
-    version: "0.4.1"
+    version: "0.4.2"
     repository: "https://mvn-ngoctran2-dn.github.io/helm-chart-test/"
