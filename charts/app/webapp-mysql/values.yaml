@@ -10,8 +10,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets:
-  - name: demo-harbor
+imagePullSecrets: []
 
 nameOverride: ""
 fullnameOverride: ""
@@ -51,14 +50,14 @@ ingress:
     kubernetes.io/ingress.class: nginx-external
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: demo.monstar-lab.vn
+    - host: k8s-wp-demo.monstar-lab.vn
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     #  - secretName: chart-example-tls
     - hosts:
-        - demo.monstar-lab.vn
+        - k8s-wp-demo.monstar-lab.vn
 
 customLivenessProbe: {}
 livenessProbe:
@@ -137,12 +136,8 @@ mysql-mvn:
     repository: mysql
     tag: "5.6"
     pullPolicy: IfNotPresent
-  podSecurityContext:
-    {}
-    # fsGroup: 2000
   env:
-    normal:
-
+    normal: []
   service:
     type: NodePort
     port: 3306
@@ -157,4 +152,4 @@ mysql-mvn:
     enabled: true
     accessMode: ReadWriteOnce
     size: 1Gi
-    storageClass: sc-mvn-dynamic
+    storageClass: sc-mvn-dynamic-retain

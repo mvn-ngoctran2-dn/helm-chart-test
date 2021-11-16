@@ -75,5 +75,5 @@ mountPath:
 persistence:
   enabled: true
   accessMode: ReadWriteOnce
-  size: 1Gi
-  storageClass: sc-mvn-dynamic
+  size: 5Gi
+  storageClass: sc-mvn-dynamic-retain
