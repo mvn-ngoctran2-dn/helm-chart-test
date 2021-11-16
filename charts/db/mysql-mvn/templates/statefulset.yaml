@@ -39,14 +39,27 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- $chartFullName := include "mysql-mvn.fullname" . -}}
-            {{- range $key, $val := .Values.env.secret }}
-            - name: {{ $key }}
+          {{- $secretName := default .Release.Name "-secrets" }}
+            - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ $chartFullName }}-secrets
-                  key: {{ $key }}
-            {{- end}}
+                  name: {{ $secretName }}
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: MYSQL_ROOT_PASSWORD
             {{- range $key, $val := .Values.env.normal }}
             - name: {{ $key }}
               value: {{ $val | quote }}
