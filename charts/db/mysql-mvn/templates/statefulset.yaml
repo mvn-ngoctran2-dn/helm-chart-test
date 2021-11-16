@@ -1,3 +1,4 @@
+{{- $secretName := default .Release.Name }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -39,26 +40,25 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-          {{- $secretName := default .Release.Name "-secrets" }}
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ $secretName }}
+                  name: {{ $secretName }}-secrets
                   key: MYSQL_DATABASE
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ $secretName }}
+                  name: {{ $secretName }}-secrets
                   key: MYSQL_USER
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ $secretName }}
+                  name: {{ $secretName }}-secrets
                   key: MYSQL_PASSWORD
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ $secretName }}
+                  name: {{ $secretName }}-secrets
                   key: MYSQL_ROOT_PASSWORD
             {{- range $key, $val := .Values.env.normal }}
             - name: {{ $key }}

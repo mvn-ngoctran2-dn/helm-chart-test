@@ -60,7 +60,7 @@ env:
 containerPort: 3306
 service:
   type: ClusterIP
-  port: ""
+  port: 3306
 resources:
   limits:
     cpu: 1000m
