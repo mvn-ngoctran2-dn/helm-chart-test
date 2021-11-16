@@ -93,6 +93,20 @@ entries:
   webapp:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-11-16T15:56:51.598022801Z"
+    dependencies:
+    - name: mysql-mvn
+      repository: https://mvn-ngoctran2-dn.github.io/helm-chart-test/
+      version: 0.4.2
+    description: A Helm chart Wordpress customize for Kubernetes y
+    digest: e7feec49bb567a4f5180fbe648d9569a288ccc3c3de2632515a08a772a50668d
+    name: webapp
+    type: application
+    urls:
+    - https://github.com/mvn-ngoctran2-dn/helm-chart-test/releases/download/webapp-0.4.2/webapp-0.4.2.tgz
+    version: 0.4.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-11-16T07:46:59.3106234Z"
     dependencies:
     - name: mysql-mvn
@@ -134,4 +148,4 @@ entries:
     urls:
     - https://github.com/mvn-ngoctran2-dn/helm-chart-test/releases/download/wp-webapp-0.2/wp-webapp-0.2.tgz
     version: "0.2"
-generated: "2021-11-16T15:54:31.070972573Z"
+generated: "2021-11-16T15:56:51.598065002Z"
