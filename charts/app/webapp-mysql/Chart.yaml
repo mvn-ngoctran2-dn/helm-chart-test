@@ -4,7 +4,7 @@ description: A Helm chart Wordpress customize for Kubernetes y
 
 type: application
 
-version: "0.4.2"
+version: "0.4.3"
 
 appVersion: "1.16.0"
 
