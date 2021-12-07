@@ -52,8 +52,7 @@ image:
   tag: "5.6"
   pullPolicy: IfNotPresent
 env:
-  normal:
-    MYSQL_DATABASE: demo-db
+  normal: []
 
 containerPort: 3306
 service:
