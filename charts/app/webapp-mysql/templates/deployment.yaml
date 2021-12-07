@@ -1,3 +1,4 @@
+{{- $secretName := default .Release.Name }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,14 +51,22 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-            {{- $secretAppName := default .Release.Name }}
-            {{- range $key, $val := .Values.env.secret }}
-            - name: {{ $key }}
+            - name: WORDPRESS_DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ $secretAppName }}-secrets
-                  key: {{ $key }}
-            {{- end}}
+                  name: {{ $secretName }}-secrets
+                  key: DB_NAME       
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}-secrets
+                  key: DB_USER
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}-secrets
+                  key: DB_PASSWORD
+
             {{- range $key, $val := .Values.env.normal }}
             - name: {{ $key }}
               value: {{ $val | quote }}

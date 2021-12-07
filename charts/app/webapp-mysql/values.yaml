@@ -10,8 +10,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets:
-  - name: demo-harbor
+imagePullSecrets: []
+#  - name: aqua-project
 
 nameOverride: ""
 fullnameOverride: ""
@@ -111,16 +111,7 @@ customenv: []
 env:
   enable: true
   normal:
-  secret:
     WORDPRESS_DB_HOST: wordpress-mysql-mvn
-    WORDPRESS_DB_USER: exampleuser
-    WORDPRESS_DB_PASSWORD: examplepw
-    WORDPRESS_DB_NAME: demo-db
-    #DB ENV and secrets
-    MYSQL_DATABASE: demo-db
-    MYSQL_USER: exampleuser
-    MYSQL_PASSWORD: examplepw
-    MYSQL_ROOT_PASSWORD: examplerootpw
 
 mountPath:
   data-webapp: /var/www/html
@@ -138,7 +129,7 @@ mysql-mvn:
     tag: "5.6"
     pullPolicy: IfNotPresent
   env:
-    normal: []
+    normal: {}
   service:
     type: NodePort
     port: 3306
