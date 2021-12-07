@@ -44,22 +44,22 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}-secrets
-                  key: MYSQL_DATABASE
+                  key: DB_DATABASE
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}-secrets
-                  key: MYSQL_USER
+                  key: DB_USER
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}-secrets
-                  key: MYSQL_PASSWORD
+                  key: DB_PASSWORD
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ $secretName }}-secrets
-                  key: MYSQL_ROOT_PASSWORD
+                  key: DB_ROOT_PASSWORD
             {{- range $key, $val := .Values.env.normal }}
             - name: {{ $key }}
               value: {{ $val | quote }}
